@@ -23,8 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -134,4 +132,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 SECRET_KEY = os.environ.get('django-insecure-2-+mr*%&xais!&6)si7rt=iyji1@db^*em)36x+pvcle-nq_(w')
 
 # Set DEBUG to False for production, but True if we are working locally
-DEBUG = 'RENDER' not in os.environ
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
