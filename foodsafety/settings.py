@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-
+SECRET_KEY = os.environ.get('django-insecure-2-+mr*%&xais!&6)si7rt=iyji1@db^*em)36x+pvcle-nq_(w')
 
 ALLOWED_HOSTS = ['https://foodsafetyscanner.onrender.com']
 
@@ -126,10 +126,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# This tells Django: Use the Render Database if it exists, otherwise use SQLite locally
-
-# Also, let's make the Secret Key secure so it's not plain text on GitHub
-SECRET_KEY = os.environ.get('django-insecure-2-+mr*%&xais!&6)si7rt=iyji1@db^*em)36x+pvcle-nq_(w')
-
 # Set DEBUG to False for production, but True if we are working locally
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
