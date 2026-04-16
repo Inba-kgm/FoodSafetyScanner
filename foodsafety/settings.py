@@ -1,5 +1,3 @@
-
-import dj_database_url
 import os
 """
 Django settings for foodsafety project.
@@ -22,9 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-SECRET_KEY = os.environ.get('django-insecure-2-+mr*%&xais!&6)si7rt=iyji1@db^*em)36x+pvcle-nq_(w')
+SECRET_KEY = 'django-insecure-2-+mr*%&xais!&6)si7rt=iyji1@db^*em)36x+pvcle-nq_(w'
 
-ALLOWED_HOSTS = ['*']
+DEBUG =True
+
+ALLOWED_HOSTS = ['foodsafetyscanner.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -59,7 +59,7 @@ ROOT_URLCONF = 'foodsafety.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [os.path.join( BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,6 +124,3 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-# Set DEBUG to False for production, but True if we are working locally
-DEBUG = True
