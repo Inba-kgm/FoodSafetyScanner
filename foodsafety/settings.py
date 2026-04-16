@@ -132,4 +132,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 SECRET_KEY = os.environ.get('django-insecure-2-+mr*%&xais!&6)si7rt=iyji1@db^*em)36x+pvcle-nq_(w')
 
 # Set DEBUG to False for production, but True if we are working locally
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = True
