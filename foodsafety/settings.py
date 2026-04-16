@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('django-insecure-2-+mr*%&xais!&6)si7rt=iyji1@db^*em)36x+pvcle-nq_(w')
 
-ALLOWED_HOSTS = ['https://foodsafetyscanner.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,12 +76,11 @@ WSGI_APPLICATION = 'foodsafety.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -127,4 +126,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Set DEBUG to False for production, but True if we are working locally
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = True
