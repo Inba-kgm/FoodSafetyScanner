@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodSafety - Analytics Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="{% static 'css/home/style.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container" id="container">
+        
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fas fa-chart-line"></i>
+        </button>
+
+        <div class="form-container data-container">
+            <div class="form-content">
+                <h1>Live Analytics</h1>
+                <div class="visual-analysis">
+                    <canvas id="analysisChart"></canvas>
+                </div>
+                <div class="data-division" id="dataDisplay">
+                    
+                    <p>{{ out }}</p>
+                </div>
+                <br><br>
+                <div>Healthy:{{ heal }}</div>
+                <br>
+                <div>Unhealthy:{{ unheal }}</div>
+                <div class="mobile-history-bar">
+                    <button class="btn ghost small" id="viewHistory">View History</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container action-container">
+            <div class="form-content">
+                <h1>Scan Food Now</h1>
+                
+                <br>
+                <br>
+                
+                <div class="printer">
+                    <div class="printer-top"></div>
+                    <div class="paper-output"></div>
+                    <div class="printer-body">
+                        <div class="lights">
+                            <div class="light red"></div>
+                            <div class="light yellow"></div>
+                            <div class="light green"></div>
+                        </div>
+                        <div class="printer-button"></div>
+                    </div>
+                </div>
+                <form method="post" action="/logic/generate/">
+                    <input type="hidden" aria-label="Name" name="username" value="{{ username }}" />
+                    <input type="hidden" aria-label="Name" name="password" value="{{ password }}" />
+                    <input type="hidden" aria-label="Name" name="email" value="{{ email }}" />
+                    {% csrf_token %}
+                <div>
+                <button type='submit' class="btn main-push-btn" id="triggerAction">START SCAN</button></div>
+            
+            </form>
+            </div>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Back to Action</h1>
+                    <p>Ready to generate more records?</p>
+                    <button class="btn ghost" id="showAction">Push Button Side</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>View Results</h1>
+                    <p>Check the latest analytics and database records.</p>
+                    <button class="btn ghost" id="showData">See Analytics</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById("container");
+        const showDataBtn = document.getElementById("showData");
+        const showActionBtn = document.getElementById("showAction");
+        const mobileToggle = document.getElementById("mobileToggle");
+        const triggerBtn = document.getElementById("triggerAction");
+
+        // Toggle Logic
+        showDataBtn.addEventListener("click", () => container.classList.add("right-panel-active"));
+        showActionBtn.addEventListener("click", () => container.classList.remove("right-panel-active"));
+        mobileToggle.addEventListener("click", () => container.classList.toggle("right-panel-active"));
+// By putting quotes around them, VS Code sees a String (no error)
+// When Django runs, it becomes "60"
+// Number() then turns it into the math-ready 60
+        const healValue = Number("{{ heal|default:0 }}");
+        const unhealValue = Number("{{ unheal|default:0 }}");
+        console.log(healValue);
+        console.log(unhealValue);
+        // Chart.js Init
+        const ctx = document.getElementById('analysisChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Healthy', 'Unhealthy'],
+                datasets: [{
+                    data: [healValue, unhealValue],
+                    backgroundColor: ['#2575fc', '#ff0000'],
+                    borderColor: 'transparent'
+                }]
+            },
+            options: { cutout: '80%', maintainAspectRatio: false }
+        });
+
+        // Trigger Function (Configurable for Django)
+        triggerBtn.addEventListener("click", () => {
+            // Add your Django fetch here later
+            const newVal = Math.floor(Math.random() * 100);
+            document.getElementById('dataDisplay').innerHTML = `
+                <div class="record-entry">
+                    <span>New Entry Generated: <strong>${newVal}</strong></span>
+                </div>`;
+            
+            // Update chart visually
+            myChart.data.datasets[0].data = [newVal, 100 - newVal];
+            myChart.update();
+        });
+        // Change your triggerBtn logic to this:
+triggerBtn.addEventListener("click", (e) => {
+    // If you want the form to actually send data to Django, 
+    // do NOT use e.preventDefault(). 
+    
+    console.log("Form is submitting to Django...");
+    
+    // Note: The UI updates below will be lost once the page reloads 
+    // unless you use AJAX/Fetch.
+});
+    </script>
+</body>
+</html>

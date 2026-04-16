@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Crybaby - Login Page</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link rel="stylesheet" href="{% static 'css/login/otpverify.css' %}" />
+    </head>
+    <body>
+        <div class="container" id="container">
+            <button class="mobile-toggle" id="mobileToggle">
+                <i class="fas fa-exchange-alt"></i>
+            </button>
+
+            <div class="form-container otpdiv">
+                <form class="form" method="post" action="/forgotpass/">
+                    {% csrf_token %}
+                    <h1>Forgot Password</h1>
+                    <input type="email" placeholder="Enter Your Email" aria-label="Name" name="email"/>
+                    
+                    <div class="error">
+                    {{ err }}
+                    </div>
+                    <button class="btn">Send OTP</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            const signUpButton = document.getElementById("signUp");
+            const signInButton = document.getElementById("signIn");
+            const mobileToggle = document.getElementById("mobileToggle");
+            const container = document.getElementById("container");
+
+            signUpButton.addEventListener("click", () => {
+                container.classList.add("right-panel-active");
+            });
+
+            signInButton.addEventListener("click", () => {
+                container.classList.remove("right-panel-active");
+            });
+
+            mobileToggle.addEventListener("click", () => {
+                container.classList.toggle("right-panel-active");
+            });
+        </script>
+    </body>
+</html>
